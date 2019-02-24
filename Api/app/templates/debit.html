@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form action={{ url_for( 'add_debit' ) }} method="post">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <label>Cliente</label>
+            {{ form.clients(class="form-control") }}
+        </div>
+        <div class="form-group">
+            <label>Motivo</label>
+            {{ form.description(class="form-control") }}
+        </div>
+        <div class="form-group">
+            <label>Valor</label>
+            {{ form.value(class="form-control") }}
+        </div>
+        <div class="form-group">
+            <label>Data</label>
+            {{ form.date(class="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+{% endblock %}

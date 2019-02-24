@@ -30,11 +30,9 @@ class Debit(db.Model):
            'value': format_currency(self.value, 'BRL', locale='pt_BR')
        }
 
-    def __init__(self, client_id, client_name, description, value):
+    def __init__(self, client_id, client_name, description, value, date):
         self.client_id = client_id
         self.description = description
         self.client_name = client_name
         self.value = value
-
-
-    
+        self.date = datetime.strptime(date, '%Y-%m-%d')

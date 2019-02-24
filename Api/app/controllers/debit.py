@@ -1,15 +1,27 @@
 #coding: utf8
 from app import app, db
-from flask import jsonify, json, request
+from flask import jsonify, json, request, render_template, redirect, url_for
 from app.models.tables import Debit
+from app.models.form import DebitForm
 
 @app.route('/v1/debit/new', methods=['POST'])
+@app.route('/debit/new', methods=['POST'])
 def add_debit():
-    data = request.get_json()
-    debit = Debit(int(data['client_id']), data['client_name'], data['description'], float(data['value']))
-    db.session.add(debit)
-    db.session.commit()
-    return jsonify(data), 200
+    if str(request.url_rule) == "/debit/new":
+        client_id,client_name = request.form['clients'].split('-')
+        description = request.form['description']
+        value = request.form['value']
+        date = request.form['date']
+        debit = Debit(int(client_id), client_name, description, float(value), date)
+        db.session.add(debit)
+        db.session.commit()
+        return redirect(url_for('index'))
+    else:
+        data = request.get_json()
+        debit = Debit(int(data['client_id']), data['client_name'], data['description'], float(data['value']), data['date'])
+        db.session.add(debit)
+        db.session.commit()
+        return jsonify(data), 200
 
 @app.route('/v1/debit/<int:debit_id>', methods=['GET'])
 def search_debit_by_id(debit_id):
@@ -39,4 +51,14 @@ def delete_debit(debit_id):
 def list_debit():
     debits = Debit.query.all()
     return jsonify([i.serialize for i in debits])
-    
+
+
+@app.route('/', methods=["GET"])
+def index():
+    form = DebitForm()
+    return render_template('debit.html', form=form)
+
+
+# @app.route('/hello')
+# def hello():
+#     return redirect(url_for('index'))
