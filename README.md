@@ -1,5 +1,5 @@
 # Debitos
-Para este projeto foi utilizada a linguagem Python na versão 2.7, framework Flask, banco de dados sqlite e bootstrap.
+Para este projeto foi utilizada a linguagem Python na versão 2.7, Flask, banco de dados sqlite e bootstrap.
 
 # Instrução
 
@@ -72,4 +72,4 @@ Edita um determinado registro.
 - Colocar mascara no campo de valor;
 - Implementar testes.
 - Implementar login na aplicação web;
-- Implementar um sistema de token na API;s
+- Implementar um sistema de token na APIs
