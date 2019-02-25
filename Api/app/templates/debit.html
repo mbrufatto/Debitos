@@ -1,6 +1,32 @@
 {% extends 'base.html' %}
+
+{% block debits %}
+    {% for debit in debits %}
+        <br>
+        <form action={{ url_for( 'delete_debit', debit_id=debit.id )}} method="POST">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <a href={{ url_for( 'edit_debit', debit_id=debit.id ) }}>{{ debit.client_name }}</a>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-danger">Excluir</button> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% endfor %}
+{% endblock %}
+
+
 {% block content %}
-    <form action={{ url_for( 'add_debit' ) }} method="post">
+    {% if action == "edit" %}
+        <form action={{ url_for( 'edit_debit', debit_id=debit.id ) }} method="post">
+    {% else %}
+        <form action={{ url_for( 'add_debit' ) }} method="post">
+    {% endif %}
         {{ form.csrf_token }}
         <div class="form-group">
             <label>Cliente</label>
@@ -18,5 +44,9 @@
             <label>Data</label>
             {{ form.date(class="form-control") }}
         </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        {% if action == "edit" %}
+            <button type="submit" class="btn btn-primary">Atualizar</button>
+        {% else %}
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        {% endif %}
 {% endblock %}
